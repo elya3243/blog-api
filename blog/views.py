@@ -1,12 +1,16 @@
-from rest_framework import generics, filters
-from .serializers import PostSerializer, CommentSerializer, PostWriteSerializer, PostReadSerializer
+from rest_framework import generics
+from .serializers import PostSerializer, CommentSerializer, PostWriteSerializer, PostReadSerializer, RegisterSerializer
 from .models import Post, Comment, Like
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .permissions import IsOwner
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    queryset = User.objects.all()
 class PostListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     search_fields = ['title', 'content']
